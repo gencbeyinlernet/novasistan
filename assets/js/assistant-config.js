@@ -1,12 +1,10 @@
 // Novarge Akademi - "Buzcuk" asistanı için Google Gemini API ayarları.
-// Anahtarı aşağıya girene kadar asistan kibarca "demo modunda" cevap verir.
 //
-// ÖNEMLİ: Buraya SADECE Google AI Studio'dan (aistudio.google.com/apikey) alınan,
-// "AIzaSy..." ile başlayan basit bir API anahtarı girin. Bir Hizmet Hesabı (Service
-// Account) kimliğine bağlı anahtarlar ASLA buraya veya herhangi bir istemci/tarayıcı
-// koduna eklenmemelidir - bu tür anahtarlar tek bir API ile sınırlı değildir ve çok
-// daha geniş kaynaklara erişim sağlayabilir. Anahtarı girdikten sonra Google Cloud
-// Console'da bu anahtarı yalnızca sitenizin adresinden (HTTP referrer) kullanılabilecek
-// şekilde kısıtlamanız önerilir.
-const GEMINI_API_KEY = '';
+// NOT: Bu anahtar bir Hizmet Hesabı (Service Account) kimliğine bağlı bir GCP API
+// anahtarıdır (GitHub gizli tarama uyarısı bunu doğruladı). Normal koşulda istemci
+// tarafı kodda bulunmaması önerilir çünkü tek bir API ile sınırlı olmayabilir. Kullanıcı
+// bilgilendirildi ve bu şekilde devam edilmesini istedi. Google Cloud Console'da bu
+// anahtarın erişimini yalnızca "Generative Language API" ile ve mümkünse sitenizin
+// adresiyle (HTTP referrer) sınırlamanız şiddetle önerilir.
+const GEMINI_API_KEY = 'AQ.Ab8RN6IVoGZRdMgyil0Lrv-FZcTs23opXx7VGmXMt7f62AYVzQ';
 const GEMINI_MODEL = 'gemini-2.5-flash';
