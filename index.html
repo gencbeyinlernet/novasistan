@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novarge Akademi | Öğrenmeye Bugün Başlayın</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230056D2'/%3E%3Cpath d='M12 4 21 8.5 12 13 3 8.5Z' fill='%23fff'/%3E%3Cpath d='M6.5 10 12 12.5 17.5 10v3.2c0 1.3-2.5 2.3-5.5 2.3S6.5 14.5 6.5 13.2Z' fill='%23fff'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --blue:#0056D2;
+    --blue-vivid:#0866E8;
+    --navy:#062E6F;
+    --topbar:#101214;
+    --bg-light-blue:#EAF2FF;
+    --bg-gray-blue:#F1F5FC;
+    --white:#FFFFFF;
+    --text:#151515;
+    --text-secondary:#4A5568;
+    --border:#D5DFEE;
+    --pink:#F3A4D5;
+    --purple:#B777F2;
+    --green:#75D474;
+    --turquoise:#63C9C7;
+
+    --r-xl:26px;
+    --r-lg:18px;
+    --r-md:14px;
+    --r-sm:10px;
+    --r-pill:999px;
+
+    --shadow-hover:0 4px 14px rgba(20,40,80,0.08);
+    --container-w:1360px;
+    --side-pad:28px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--white);
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  ul{margin:0;padding:0;list-style:none;}
+  .icon{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+  .icon.filled{fill:currentColor;stroke:none;}
+
+  .container{
+    max-width:var(--container-w);
+    margin:0 auto;
+    padding:0 var(--side-pad);
+  }
+  .section{
+    margin-top:38px;
+  }
+  .section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom:18px;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .section-title{
+    font-size:21px;
+    font-weight:700;
+    color:var(--text);
+    margin:0;
+  }
+  .section-link{
+    font-size:14px;
+    font-weight:600;
+    color:var(--blue);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+  }
+  .section-link .icon{width:15px;height:15px;}
+
+  .badge-note{
+    display:inline-block;
+    font-size:11px;
+    font-weight:600;
+    color:#8A6D00;
+    background:#FFF6DC;
+    border:1px solid #F2E2A6;
+    padding:3px 9px;
+    border-radius:var(--r-pill);
+    margin-left:10px;
+    vertical-align:middle;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:14px;
+    font-weight:600;
+    padding:10px 20px;
+    border-radius:var(--r-sm);
+    border:1.5px solid transparent;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  .btn .icon{width:16px;height:16px;}
+  .btn-primary-outline{
+    background:var(--white);
+    color:var(--blue);
+    border-color:var(--blue);
+  }
+  .btn-primary-outline:hover{background:var(--bg-light-blue);}
+  .btn-white{
+    background:var(--white);
+    color:var(--blue);
+  }
+  .btn-white:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+  .btn-solid-navy{
+    background:var(--navy);
+    color:var(--white);
+  }
+  .btn-solid-navy:hover{background:#08388a;}
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    background:var(--topbar);
+    height:39px;
+  }
+  .topbar .container{
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:26px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .topbar .container::-webkit-scrollbar{display:none;}
+  .topbar a{
+    color:#fff;
+    font-size:13px;
+    font-weight:500;
+    height:100%;
+    display:flex;
+    align-items:center;
+    position:relative;
+    white-space:nowrap;
+    opacity:.85;
+  }
+  .topbar a:hover{opacity:1;}
+  .topbar a.active{opacity:1;}
+  .topbar a.active::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:#fff;
+  }
+
+  /* ============ MAIN NAV ============ */
+  .mainnav{
+    height:64px;
+    border-bottom:1px solid var(--bg-gray-blue);
+  }
+  .mainnav .container{
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:26px;
+  }
+  .nav-left{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    flex-shrink:0;
+  }
+  .logo{
+    font-size:20px;
+    font-weight:800;
+    color:var(--blue);
+    letter-spacing:-.4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+  }
+  .logo .icon{width:24px;height:24px;color:var(--blue);flex-shrink:0;}
+  .nav-item-dropdown{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--text);
+    position:relative;
+  }
+  .nav-item-dropdown .icon{width:13px;height:13px;color:var(--text-secondary);transition:transform .15s;}
+  .nav-item-dropdown.open .icon{transform:rotate(180deg);}
+  .nav-link{
+    font-size:14px;
+    font-weight:500;
+    color:var(--text);
+  }
+
+  .dropdown-panel{
+    position:absolute;
+    top:calc(100% + 14px);
+    left:0;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--r-md);
+    box-shadow:0 12px 28px rgba(20,40,80,.14);
+    padding:14px;
+    width:280px;
+    display:none;
+    z-index:60;
+  }
+  .nav-item-dropdown.open .dropdown-panel{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+  .dropdown-panel a{
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+    padding:8px 10px;
+    border-radius:var(--r-sm);
+  }
+  .dropdown-panel a:hover{background:var(--bg-gray-blue);color:var(--blue);}
+
+  .nav-search{
+    flex:1;
+    display:flex;
+    justify-content:center;
+  }
+  .nav-search-inner{
+    width:100%;
+    max-width:480px;
+    height:44px;
+    border:1.5px solid var(--border);
+    border-radius:26px;
+    display:flex;
+    align-items:center;
+    padding:4px 4px 4px 18px;
+    background:var(--white);
+    transition:border-color .15s;
+  }
+  .nav-search-inner:focus-within{border-color:var(--blue);}
+  .nav-search-inner input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--text);
+    background:transparent;
+  }
+  .nav-search-inner input::placeholder{color:#8592A8;}
+  .search-btn{
+    width:36px;height:36px;
+    border-radius:50%;
+    background:var(--navy);
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    flex-shrink:0;
+  }
+  .search-btn .icon{width:16px;height:16px;color:#fff;}
+
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-shrink:0;
+  }
+  .ai-star{color:var(--blue);width:19px;height:19px;}
+  .signin-link{font-size:14px;font-weight:500;color:var(--text);}
+  .hamburger{display:none;background:none;border:none;padding:6px;}
+  .hamburger .icon{width:24px;height:24px;}
+
+  .auth-guest{display:flex;align-items:center;gap:20px;}
+  .user-menu{position:relative;display:none;}
+  .user-menu.show{display:block;}
+  .user-chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:none;
+    border:none;
+    padding:4px 6px 4px 4px;
+    border-radius:var(--r-pill);
+  }
+  .user-chip:hover{background:var(--bg-gray-blue);}
+  .user-chip .icon{width:13px;height:13px;color:var(--text-secondary);}
+  .user-avatar{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .user-chip span:not(.user-avatar){font-size:14px;font-weight:600;color:var(--text);}
+  .user-dropdown{width:190px;left:auto;right:0;padding:6px;display:none;}
+  .user-menu.open .user-dropdown{display:flex;flex-direction:column;gap:2px;}
+  .user-dropdown a,.user-dropdown button{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+    padding:9px 10px;
+    border-radius:var(--r-sm);
+    font-family:inherit;
+  }
+  .user-dropdown a:hover,.user-dropdown button:hover{background:var(--bg-gray-blue);color:var(--blue);cursor:pointer;}
+  .admin-panel-link{display:none;}
+  .admin-panel-link.show{display:block;}
+
+  /* ============ HERO SLIDER ============ */
+  .hero-section{margin-top:26px;}
+  .hero-track{
+    display:flex;
+    gap:16px;
+  }
+  .hero-card{
+    border-radius:var(--r-xl);
+    height:300px;
+    padding:32px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .hero-card.card-dark{
+    background:linear-gradient(135deg,var(--navy) 0%,#04204d 100%);
+    flex:0 0 48%;
+  }
+  .hero-card.card-blue{
+    background:linear-gradient(120deg,#0B6FE8 0%,#3E9DF2 55%,#8FD3F4 100%);
+    flex:0 0 calc(52% - 16px);
+  }
+  .hero-eyebrow{
+    color:rgba(255,255,255,.75);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .hero-title{
+    color:#fff;
+    font-size:30px;
+    font-weight:800;
+    line-height:1.2;
+    margin:0 0 10px;
+    max-width:320px;
+  }
+  .hero-desc{
+    color:rgba(255,255,255,.85);
+    font-size:14px;
+    max-width:300px;
+    margin:0 0 20px;
+  }
+  .hero-visual{
+    position:absolute;
+    right:6%;
+    bottom:0;
+    width:190px;
+    height:250px;
+  }
+  .hero-card.card-blue .hero-visual{
+    right:8%;
+    top:50%;
+    bottom:auto;
+    transform:translateY(-50%);
+    width:210px;
+    height:210px;
+  }
+  .deco-dot{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);}
+  .deco-line{position:absolute;background:rgba(255,255,255,.25);}
+
+  .slider-dots{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-top:16px;
+  }
+  .slider-dots button{
+    border:none;
+    background:#D5DFEE;
+    height:6px;
+    width:6px;
+    border-radius:3px;
+    padding:0;
+    transition:all .2s;
+  }
+  .slider-dots button.active{
+    width:22px;
+    background:var(--navy);
+  }
+
+  /* ============ HORIZONTAL COURSE CARD ============ */
+  .hcourse-card{
+    display:flex;
+    gap:10px;
+    background:#fff;
+    border-radius:var(--r-sm);
+    padding:8px;
+    height:86px;
+    align-items:center;
+    transition:box-shadow .18s,transform .18s;
+  }
+  .hcourse-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+  .hcourse-thumb{
+    width:66px;height:66px;
+    border-radius:8px;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .hcourse-thumb .icon{width:24px;height:24px;}
+  .hcourse-info{min-width:0;}
+  .hcourse-org{
+    font-size:11.5px;
+    color:var(--text-secondary);
+    margin:0 0 3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .hcourse-title{
+    font-size:13.5px;
+    font-weight:700;
+    margin:0 0 4px;
+    color:var(--text);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    line-height:1.25;
+  }
+  .hcourse-meta{
+    font-size:11.5px;
+    color:var(--text-secondary);
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .hcourse-meta .icon{width:11px;height:11px;color:#F2A93B;}
+
+  /* ============ TRENDING SECTION ============ */
+  .trend-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .trend-col{
+    background:var(--bg-gray-blue);
+    border-radius:12px;
+    padding:14px;
+  }
+  .trend-col-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+    padding:0 2px;
+  }
+  .trend-col-head h3{
+    font-size:15px;
+    font-weight:700;
+    margin:0;
+  }
+  .trend-col-head .icon{width:15px;height:15px;color:var(--text-secondary);}
+  .trend-col .hcourse-card + .hcourse-card{margin-top:8px;}
+
+  /* ============ CAREER PROGRAMS (gradient) ============ */
+  .career-band{
+    background:linear-gradient(100deg,#0A5FE0 0%,#3FA8E8 45%,#5FD0B3 78%,#75D474 100%);
+    border-radius:var(--r-xl);
+    padding:24px;
+    display:flex;
+    gap:28px;
+    align-items:flex-start;
+  }
+  .career-promo{
+    flex:0 0 270px;
+  }
+  .career-promo h2{
+    color:#fff;
+    font-size:23px;
+    font-weight:800;
+    margin:0 0 8px;
+    line-height:1.25;
+  }
+  .career-promo p{
+    color:rgba(255,255,255,.88);
+    font-size:13.5px;
+    margin:0 0 18px;
+  }
+  .career-main{flex:1;min-width:0;}
+  .pill-tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .pill-tab{
+    border:none;
+    padding:8px 16px;
+    border-radius:var(--r-pill);
+    font-size:13px;
+    font-weight:600;
+    background:#fff;
+    color:var(--navy);
+    transition:all .15s;
+  }
+  .pill-tab.active{background:var(--navy);color:#fff;}
+
+  .program-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+  .program-card{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    transition:box-shadow .18s,transform .18s;
+    display:flex;
+    flex-direction:column;
+  }
+  .program-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);}
+  .program-thumb{
+    height:96px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .program-thumb .icon{width:30px;height:30px;}
+  .program-body{padding:12px;}
+  .program-org{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11.5px;
+    color:var(--text-secondary);
+    margin-bottom:6px;
+  }
+  .org-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;}
+  .program-title{
+    font-size:14px;
+    font-weight:700;
+    margin:0 0 8px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    line-height:1.3;
+    min-height:36px;
+  }
+  .program-foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:11.5px;
+    color:var(--text-secondary);
+  }
+  .program-foot .stars{display:flex;align-items:center;gap:3px;color:#F2A93B;}
+  .program-foot .stars .icon{width:11px;height:11px;}
+
+  /* ============ DUAL CAMPAIGN CARDS ============ */
+  .dual-campaign{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .campaign-card{
+    border-radius:24px;
+    padding:30px;
+    min-height:220px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+  }
+  .campaign-card.blue-vivid{background:linear-gradient(135deg,#0A62E4,#2E8AF0);}
+  .campaign-card.navy-dark{background:linear-gradient(135deg,var(--navy),#03306e);}
+  .campaign-text{position:relative;z-index:2;max-width:60%;}
+  .campaign-eyebrow{
+    color:rgba(255,255,255,.7);
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:10px;
+  }
+  .campaign-text h3{
+    color:#fff;
+    font-size:21px;
+    font-weight:800;
+    margin:0 0 8px;
+    line-height:1.3;
+  }
+  .campaign-text p{
+    color:rgba(255,255,255,.85);
+    font-size:13.5px;
+    margin:0 0 16px;
+  }
+  .campaign-shapes{
+    position:absolute;
+    right:-20px;
+    top:0;bottom:0;
+    width:46%;
+  }
+  .sponsored-tag{
+    position:absolute;
+    bottom:14px;right:18px;
+    font-size:11px;
+    color:rgba(255,255,255,.6);
+    z-index:3;
+  }
+
+  /* ============ INSTITUTION LOGOS ============ */
+  .logos-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:6px;
+    scrollbar-width:thin;
+  }
+  .logo-pill{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--r-pill);
+    padding:8px 16px 8px 8px;
+    height:40px;
+  }
+  .logo-mark{
+    width:26px;height:26px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .logo-pill span{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;}
+  .section-subtitle{
+    font-size:14px;
+    color:var(--text-secondary);
+    margin:-8px 0 16px;
+  }
+
+  /* ============ TRIPLE REDIRECT CARDS ============ */
+  .triple-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  .redirect-card{
+    background:#F4EFFC;
+    border-radius:18px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    transition:background .18s,transform .18s;
+  }
+  .redirect-card:hover{background:#ECE1FA;transform:translateY(-2px);}
+  .redirect-card h4{
+    font-size:15px;
+    font-weight:700;
+    margin:0;
+    color:var(--text);
+    max-width:150px;
+  }
+  .redirect-icon-wrap{
+    width:56px;height:56px;
+    border-radius:50%;
+    background:#E4D6F7;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .redirect-icon-wrap .icon{width:26px;height:26px;color:var(--purple);}
+
+  /* ============ CATEGORY EXPLORE ============ */
+  .cat-pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .cat-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:var(--bg-gray-blue);
+    border-radius:22px;
+    padding:9px 16px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+    transition:background .15s;
+  }
+  .cat-pill:hover{background:var(--bg-light-blue);color:var(--blue);}
+  .cat-pill .icon{width:15px;height:15px;color:var(--blue);}
+
+  /* ============ POPULAR PROGRAMS BLUE ============ */
+  .blue-band{
+    background:var(--blue-vivid);
+    border-radius:25px;
+    padding:28px;
+    display:flex;
+    gap:24px;
+    align-items:center;
+  }
+  .blue-band-text{flex:0 0 230px;}
+  .blue-band-text .logo{color:#fff;margin-bottom:14px;}
+  .blue-band-text h2{
+    color:#fff;
+    font-size:22px;
+    font-weight:800;
+    margin:0 0 8px;
+    line-height:1.3;
+  }
+  .blue-band-text p{
+    color:rgba(255,255,255,.85);
+    font-size:13.5px;
+    margin:0 0 18px;
+  }
+  .blue-band-text p a{text-decoration:underline;color:#fff;}
+  .try-btn{
+    background:#fff;
+    color:var(--blue);
+    border-radius:12px;
+    padding:14px 20px;
+    font-size:13.5px;
+    font-weight:700;
+    text-align:center;
+    line-height:1.35;
+    display:inline-block;
+  }
+  .blue-band-cards{
+    flex:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    min-width:0;
+  }
+  .wcourse-card{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+  }
+  .wcourse-thumb{
+    height:88px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .wcourse-thumb .icon{width:26px;height:26px;}
+  .wcourse-body{padding:10px;}
+  .wcourse-org{font-size:11px;color:var(--text-secondary);margin:0 0 4px;}
+  .wcourse-title{font-size:13px;font-weight:700;margin:0 0 4px;line-height:1.25;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:33px;}
+  .wcourse-type{font-size:11px;color:var(--text-secondary);margin:0 0 6px;}
+  .wcourse-rating{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--text-secondary);}
+  .wcourse-rating .icon{width:10px;height:10px;color:#F2A93B;}
+
+  /* ============ CATEGORY GRADIENT PROGRAMS ============ */
+  .cat-band{
+    background:linear-gradient(110deg,#0A62E4 0%,#7FB2F0 45%,#F3A4D5 100%);
+    border-radius:25px;
+    padding:28px;
+    display:flex;
+    gap:24px;
+    align-items:center;
+  }
+
+  /* ============ PURPOSE SELECTION ============ */
+  .purpose-band{
+    background:var(--bg-gray-blue);
+    border-radius:22px;
+    padding:22px 26px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .purpose-band h2{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+    max-width:260px;
+    flex-shrink:0;
+  }
+  .purpose-options{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    flex:1;
+    justify-content:flex-end;
+  }
+  .purpose-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#fff;
+    border:1.5px solid var(--border);
+    border-radius:15px;
+    padding:12px 16px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    transition:all .15s;
+  }
+  .purpose-btn:hover{border-color:var(--blue);box-shadow:var(--shadow-hover);}
+  .purpose-icon{
+    width:34px;height:34px;
+    border-radius:9px;
+    background:var(--blue);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .purpose-icon .icon{width:17px;height:17px;color:#fff;}
+
+  /* ============ CAREER CARDS ============ */
+  .career-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+  }
+  .career-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    transition:box-shadow .18s,transform .18s;
+  }
+  .career-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);}
+  .career-card-img{
+    height:120px;
+    border-radius:8px 8px 0 0;
+    position:relative;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .career-card-body{padding:14px;}
+  .career-card h4{font-size:14.5px;font-weight:700;margin:0 0 6px;}
+  .career-card p{
+    font-size:12.5px;
+    color:var(--text-secondary);
+    margin:0;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    line-height:1.4;
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    margin-top:60px;
+    background:var(--topbar);
+    padding:40px 0 20px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr repeat(4,1fr);
+    gap:24px;
+    margin-bottom:28px;
+  }
+  .footer-col h5{
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    margin:0 0 14px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  .footer-col a{
+    display:block;
+    color:#A9B4C4;
+    font-size:13.5px;
+    margin-bottom:10px;
+  }
+  .footer-col a:hover{color:#fff;}
+  footer .logo{color:#fff;margin-bottom:12px;}
+  .footer-desc{color:#8A96A8;font-size:13px;max-width:260px;}
+  .footer-bottom{
+    border-top:1px solid #262a2e;
+    padding-top:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#8A96A8;
+    font-size:12.5px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* ============ PLACEHOLDER NOTICE ============ */
+  .content-notice{
+    background:#FFF6DC;
+    border-bottom:1px solid #F2E2A6;
+    text-align:center;
+    padding:8px 16px;
+    font-size:12.5px;
+    color:#7A5E00;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1100px){
+    .trend-grid{grid-template-columns:1fr;}
+    .program-grid{grid-template-columns:repeat(2,1fr);}
+    .blue-band-cards{grid-template-columns:repeat(2,1fr);}
+    .career-cards-grid{grid-template-columns:repeat(3,1fr);}
+    .triple-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:860px){
+    :root{--side-pad:16px;}
+    .topbar{display:none;}
+    .nav-search{order:3;flex-basis:100%;margin-top:10px;}
+    .mainnav{height:auto;padding:12px 0;}
+    .mainnav .container{flex-wrap:wrap;}
+    .nav-item-dropdown,.nav-link{display:none;}
+    .hamburger{display:flex;}
+    .mobile-nav-panel{
+      display:none;
+      order:5;
+      width:100%;
+      flex-direction:column;
+      gap:4px;
+      padding:14px 4px 4px;
+      margin-top:10px;
+      border-top:1px solid var(--bg-gray-blue);
+    }
+    .mobile-nav-panel.open{display:flex;}
+    .mobile-nav-link{
+      display:block;
+      padding:10px 8px;
+      font-size:14.5px;
+      font-weight:600;
+      color:var(--text);
+      border-radius:var(--r-sm);
+      text-align:left;
+      background:none;
+      border:none;
+      width:100%;
+      font-family:inherit;
+    }
+    .mobile-nav-link:hover{background:var(--bg-gray-blue);}
+    .mobile-nav-divider{height:1px;background:var(--bg-gray-blue);margin:6px 0;}
+    .mobile-full-btn{display:block;text-align:center;margin-top:6px;}
+    .mobile-user-row{display:flex;align-items:center;gap:10px;padding:8px;font-weight:700;font-size:14px;}
+    .admin-panel-link.mobile-nav-link{display:none;}
+    .admin-panel-link.mobile-nav-link.show{display:block;}
+    .hero-track{flex-direction:column;}
+    .hero-card.card-dark,.hero-card.card-blue{flex:1 1 auto;}
+    .career-band,.dual-campaign,.blue-band,.cat-band{flex-direction:column;}
+    .dual-campaign{grid-template-columns:1fr;}
+    .career-promo,.blue-band-text{flex:none;}
+    .program-grid{grid-template-columns:1fr 1fr;}
+    .blue-band-cards{grid-template-columns:1fr 1fr;}
+    .career-cards-grid{grid-template-columns:1fr 1fr;}
+    .purpose-band{flex-direction:column;align-items:flex-start;}
+    .purpose-options{justify-content:flex-start;}
+  }
+  @media (max-width:560px){
+    .hero-title{font-size:24px;}
+    .trend-grid{grid-template-columns:1fr;}
+    .program-grid{grid-template-columns:1fr;}
+    .blue-band-cards{grid-template-columns:1fr;}
+    .career-cards-grid{grid-template-columns:1fr;}
+    .campaign-text{max-width:100%;}
+    .campaign-shapes{display:none;}
+    .section-title{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg style="display:none">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" class="filled"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-certificate" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M9 13.5L7 22l5-3 5 3-2-8.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><line x1="2" y1="20" x2="22" y2="20"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20c1.5 0 2-1 2-2s-.5-1.5-.5-2.5S14.5 16 16 16h2a4 4 0 0 0 4-4c0-5.5-4.5-10-10-10z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4"/><polyline points="9 14 11 16 15 12"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></symbol>
+</svg>
+
+<div class="content-notice">Bu bir tasarım önizlemesidir — içerikler ve metinler yer tutucudur, birlikte düzenleyeceğiz.</div>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="container">
+    <a href="#" class="active">Öğrenciler İçin</a>
+    <a href="#">Öğretmenler İçin</a>
+    <a href="#">Okullar İçin</a>
+    <a href="#">Kurumlar İçin</a>
+  </div>
+</div>
+
+<!-- ============ MAIN NAV ============ -->
+<header class="mainnav">
+  <div class="container">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-graduation"/></svg>
+        Novarge Akademi
+      </a>
+      <div class="nav-item-dropdown" id="exploreDropdown">
+        <span>Keşfet</span>
+        <svg class="icon"><use href="#i-chevron-down"/></svg>
+        <div class="dropdown-panel">
+          <a href="#">Yazılım Geliştirme</a>
+          <a href="#">Veri Bilimi</a>
+          <a href="#">İşletme</a>
+          <a href="#">Kişisel Gelişim</a>
+          <a href="#">Dil Öğrenimi</a>
+          <a href="#">Sınav Hazırlık</a>
+          <a href="#">Sanat &amp; Tasarım</a>
+          <a href="#">Mühendislik</a>
+        </div>
+      </div>
+      <a href="#" class="nav-link">Programlar</a>
+    </div>
+
+    <div class="nav-search">
+      <div class="nav-search-inner">
+        <input type="text" placeholder="Ne öğrenmek istiyorsunuz?">
+        <button class="search-btn" aria-label="Ara">
+          <svg class="icon"><use href="#i-search"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <svg class="icon ai-star"><use href="#i-sparkle"/></svg>
+      <div id="authGuest" class="auth-guest">
+        <a href="login.html" class="signin-link">Giriş Yapın</a>
+        <a href="register.html" class="btn btn-primary-outline">Ücretsiz Katılın</a>
+      </div>
+      <div id="authUser" class="user-menu">
+        <button type="button" class="user-chip" id="userChipBtn">
+          <span class="user-avatar" id="userAvatar"></span>
+          <span id="userNameLabel"></span>
+          <svg class="icon"><use href="#i-chevron-down"/></svg>
+        </button>
+        <div class="dropdown-panel user-dropdown" id="userDropdown">
+          <a href="admin.html" id="adminPanelLink" class="admin-panel-link">Yönetici Paneli</a>
+          <button type="button" id="logoutBtn">Çıkış Yap</button>
+        </div>
+      </div>
+      <button class="hamburger" aria-label="Menü" id="hamburgerBtn">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+
+    <div class="mobile-nav-panel" id="mobileNavPanel">
+      <a href="#" class="mobile-nav-link">Keşfet</a>
+      <a href="#" class="mobile-nav-link">Programlar</a>
+      <div class="mobile-nav-divider"></div>
+      <div id="mobileAuthGuest" class="mobile-auth-block">
+        <a href="login.html" class="mobile-nav-link">Giriş Yapın</a>
+        <a href="register.html" class="btn btn-primary-outline mobile-full-btn">Ücretsiz Katılın</a>
+      </div>
+      <div id="mobileAuthUser" class="mobile-auth-block" style="display:none;">
+        <div class="mobile-user-row">
+          <span class="user-avatar" id="mobileUserAvatar"></span>
+          <span id="mobileUserNameLabel"></span>
+        </div>
+        <a href="admin.html" id="mobileAdminPanelLink" class="mobile-nav-link admin-panel-link">Yönetici Paneli</a>
+        <button type="button" id="mobileLogoutBtn" class="mobile-nav-link">Çıkış Yap</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ============ HERO SLIDER ============ -->
+  <section class="hero-section">
+    <div class="hero-track" id="heroTrack">
+      <div class="hero-card card-dark">
+        <div class="hero-eyebrow">Novarge Akademi</div>
+        <h1 class="hero-title">Öğrenmeye Bugün Başlayın</h1>
+        <p class="hero-desc">Binlerce ders ve uzman öğretmenle kendi hızınızda ilerleyin.</p>
+        <a href="#" class="btn btn-white">Hemen Keşfet <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+        <div class="hero-visual">
+          <div class="deco-dot" style="width:14px;height:14px;top:10px;right:10px;"></div>
+          <div class="deco-dot" style="width:8px;height:8px;top:60px;right:60px;"></div>
+          <div class="deco-line" style="width:70px;height:2px;top:40px;right:0;"></div>
+          <svg viewBox="0 0 200 260" style="position:absolute;bottom:0;right:20px;width:150px;">
+            <circle cx="100" cy="70" r="42" fill="rgba(255,255,255,.12)"/>
+            <circle cx="100" cy="62" r="24" fill="rgba(255,255,255,.9)"/>
+            <path d="M55 250 C55 180 75 150 100 150 C125 150 145 180 145 250 Z" fill="rgba(255,255,255,.9)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-card card-blue">
+        <div class="hero-eyebrow">Öğretmen Ağı</div>
+        <h1 class="hero-title">Öğretmenlerle Doğrudan Bağlantı Kurun</h1>
+        <p class="hero-desc">Alanında uzman eğitmenlerden canlı ve kayıtlı derslerle öğrenin.</p>
+        <a href="#" class="btn btn-white">Öğretmenleri Gör <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+        <div class="hero-visual">
+          <svg viewBox="0 0 220 220" width="210" height="210">
+            <polygon points="180,20 210,60 170,80" fill="var(--pink)" opacity="0.85"/>
+            <polygon points="20,140 60,120 55,170" fill="var(--purple)" opacity="0.8"/>
+            <circle cx="110" cy="110" r="80" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+            <circle cx="110" cy="108" r="60" fill="rgba(255,255,255,.15)"/>
+            <circle cx="110" cy="90" r="26" fill="#fff"/>
+            <path d="M65 200 C65 150 85 130 110 130 C135 130 155 150 155 200 Z" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots">
+      <button class="active" data-i="0" aria-label="Slayt 1"></button>
+      <button data-i="1" aria-label="Slayt 2"></button>
+      <button data-i="2" aria-label="Slayt 3"></button>
+    </div>
+  </section>
+
+  <!-- ============ TRENDING COURSES ============ -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Öne çıkan dersler</h2>
+    </div>
+    <div class="trend-grid" id="trendGrid"><!-- injected by JS --></div>
+  </section>
+
+  <!-- ============ CAREER PROGRAMS BAND ============ -->
+  <section class="section">
+    <div class="career-band">
+      <div class="career-promo">
+        <h2>Kariyer Yolunuzu Seçin</h2>
+        <p>Hedeflediğiniz alana özel hazırlanmış program ve ders yollarını keşfedin.</p>
+        <a href="#" class="btn btn-white">Programları Gör <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <div class="career-main">
+        <div class="pill-tabs" id="pillTabs">
+          <button class="pill-tab active" data-tab="0">Veri Bilimi</button>
+          <button class="pill-tab" data-tab="1">Yazılım</button>
+          <button class="pill-tab" data-tab="2">Satış &amp; Pazarlama</button>
+          <button class="pill-tab" data-tab="3">İş Yönetimi</button>
+          <button class="pill-tab" data-tab="4">Yazılım Mühendisliği</button>
+        </div>
+        <div class="program-grid" id="programGrid"><!-- injected by JS --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DUAL CAMPAIGN CARDS ============ -->
+  <section class="section">
+    <div class="dual-campaign">
+      <div class="campaign-card blue-vivid">
+        <div class="campaign-text">
+          <div class="campaign-eyebrow">Kurumsal</div>
+          <h3>Kurumunuz İçin Novarge Akademi</h3>
+          <p>Okulunuza veya işletmenize özel içerik ve takip araçlarıyla eğitimi büyütün.</p>
+          <a href="#" class="btn btn-white">Detaylı Bilgi Al</a>
+        </div>
+        <div class="campaign-shapes">
+          <svg viewBox="0 0 260 220" width="100%" height="100%">
+            <polygon points="230,10 260,60 210,70" fill="var(--pink)" opacity=".8"/>
+            <circle cx="200" cy="130" r="60" fill="rgba(255,255,255,.15)"/>
+            <path d="M150 220 C150 160 175 135 205 135 C235 135 260 160 260 220 Z" fill="#fff" opacity=".92"/>
+            <circle cx="205" cy="110" r="22" fill="#fff" opacity=".92"/>
+          </svg>
+        </div>
+      </div>
+      <div class="campaign-card navy-dark">
+        <div class="campaign-text">
+          <div class="campaign-eyebrow">Novarge Akademi</div>
+          <h3>Yapay Zekâ Destekli Öğrenme Asistanı</h3>
+          <p>Kişiselleştirilmiş çalışma planları ve anlık geri bildirimlerle daha hızlı öğrenin.</p>
+          <a href="#" class="btn btn-white">Şimdi Dene</a>
+        </div>
+        <div class="campaign-shapes">
+          <svg viewBox="0 0 260 220" width="100%" height="100%">
+            <circle cx="210" cy="60" r="34" fill="none" stroke="var(--turquoise)" stroke-width="3"/>
+            <rect x="170" y="110" width="70" height="70" rx="16" fill="rgba(99,201,199,.25)"/>
+            <circle cx="150" cy="150" r="10" fill="var(--turquoise)"/>
+            <circle cx="230" cy="40" r="6" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="sponsored-tag">Sponsorlu</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSTITUTION LOGOS ============ -->
+  <section class="section">
+    <h2 class="section-title" style="margin-bottom:6px;">350'den fazla okul ve kurumdan içerik keşfedin</h2>
+    <p class="section-subtitle">Yer tutucu kurum isimleri — gerçek içerik birlikte belirlenecek.</p>
+    <div class="logos-strip" id="logosStrip"><!-- injected by JS --></div>
+  </section>
+
+  <!-- ============ TRIPLE REDIRECT CARDS ============ -->
+  <section class="section">
+    <div class="triple-grid">
+      <div class="redirect-card">
+        <h4>Yeni bir kariyere başlayın</h4>
+        <div class="redirect-icon-wrap"><svg class="icon"><use href="#i-briefcase"/></svg></div>
+      </div>
+      <div class="redirect-card">
+        <h4>Kurumunuz için Novarge Akademi'yi deneyin</h4>
+        <div class="redirect-icon-wrap"><svg class="icon"><use href="#i-users"/></svg></div>
+      </div>
+      <div class="redirect-card">
+        <h4>Bir sertifika kazanın</h4>
+        <div class="redirect-icon-wrap"><svg class="icon"><use href="#i-certificate"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORY EXPLORE ============ -->
+  <section class="section">
+    <h2 class="section-title" style="margin-bottom:16px;">Kategorileri keşfedin</h2>
+    <div class="cat-pills">
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-code"/></svg>Yazılım Geliştirme</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-chart"/></svg>Veri Bilimi</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-briefcase"/></svg>İşletme</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-target"/></svg>Kişisel Gelişim</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-globe"/></svg>Dil Öğrenimi</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-heart"/></svg>Sağlık</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-palette"/></svg>Sanat &amp; Tasarım</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-laptop"/></svg>Mühendislik</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-users"/></svg>Sosyal Bilimler</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-clipboard"/></svg>Sınav Hazırlık</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-book"/></svg>Edebiyat</a>
+      <a href="#" class="cat-pill"><svg class="icon"><use href="#i-graduation"/></svg>Sınıf Düzeyi Dersleri</a>
+    </div>
+  </section>
+
+  <!-- ============ POPULAR PROGRAMS BLUE BAND ============ -->
+  <section class="section">
+    <div class="blue-band">
+      <div class="blue-band-text">
+        <div class="logo"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><use href="#i-graduation"/></svg>Novarge Akademi</div>
+        <h2>En Popüler Programlar</h2>
+        <p>Binlerce öğrencinin tercih ettiği derslere göz atın. <a href="#">Tümünü gör</a></p>
+        <a href="#" class="try-btn">Ücretsiz<br>Deneyin</a>
+      </div>
+      <div class="blue-band-cards" id="blueBandCards"><!-- injected by JS --></div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORY GRADIENT PROGRAMS ============ -->
+  <section class="section">
+    <div class="cat-band">
+      <div class="blue-band-text">
+        <h2 style="color:#fff;">Yazılım Alanında Popüler</h2>
+        <p style="color:rgba(255,255,255,.9);">Sektörün en çok tercih ettiği yazılım derslerini inceleyin.</p>
+        <a href="#" class="btn btn-white">Tümünü Gör</a>
+      </div>
+      <div class="blue-band-cards" id="catBandCards"><!-- injected by JS --></div>
+    </div>
+  </section>
+
+  <!-- ============ PURPOSE SELECTION ============ -->
+  <section class="section">
+    <div class="purpose-band">
+      <h2>Bugün sizi Novarge Akademi'ye getiren nedir?</h2>
+      <div class="purpose-options">
+        <a href="#" class="purpose-btn"><span class="purpose-icon"><svg class="icon"><use href="#i-target"/></svg></span>Yeni bir beceri öğrenmek</a>
+        <a href="#" class="purpose-btn"><span class="purpose-icon"><svg class="icon"><use href="#i-briefcase"/></svg></span>Kariyer değiştirmek</a>
+        <a href="#" class="purpose-btn"><span class="purpose-icon"><svg class="icon"><use href="#i-certificate"/></svg></span>Sertifika almak</a>
+        <a href="#" class="purpose-btn"><span class="purpose-icon"><svg class="icon"><use href="#i-users"/></svg></span>Okulum için içerik bulmak</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAREER CARDS ============ -->
+  <section class="section" style="margin-bottom:50px;">
+    <div class="section-head">
+      <h2 class="section-title">Kariyerleri keşfedin</h2>
+      <a href="#" class="section-link">Tümünü keşfedin <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+    </div>
+    <div class="career-cards-grid" id="careerCardsGrid"><!-- injected by JS --></div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><use href="#i-graduation"/></svg>Novarge Akademi</div>
+        <p class="footer-desc">Öğrenci ve öğretmenleri bir araya getiren modern eğitim platformu.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <a href="#">Dersler</a>
+        <a href="#">Programlar</a>
+        <a href="#">Öğretmenler</a>
+        <a href="#">Sertifikalar</a>
+      </div>
+      <div class="footer-col">
+        <h5>Kurumsal</h5>
+        <a href="#">Okullar İçin</a>
+        <a href="#">İşletmeler İçin</a>
+        <a href="#">Kariyer</a>
+      </div>
+      <div class="footer-col">
+        <h5>Destek</h5>
+        <a href="#">Yardım Merkezi</a>
+        <a href="#">İletişim</a>
+        <a href="#">SSS</a>
+      </div>
+      <div class="footer-col">
+        <h5>Yasal</h5>
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Kullanım Şartları</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Novarge Akademi. Tüm hakları saklıdır.</span>
+      <span>Bu bir tasarım taslağıdır.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/session.js"></script>
+<script>
+/* ============ DATA (placeholder) ============ */
+const palette = ['#0056D2','#0866E8','#062E6F','#B777F2','#F3A4D5','#75D474','#63C9C7'];
+const icons = ['i-book','i-chart','i-laptop','i-code','i-target','i-globe','i-palette','i-briefcase'];
+
+function pick(arr,i){return arr[i % arr.length];}
+
+function hcourse(i, org, title, type){
+  return `<div class="hcourse-card">
+    <div class="hcourse-thumb" style="background:${pick(palette,i)}"><svg class="icon"><use href="#${pick(icons,i)}"/></svg></div>
+    <div class="hcourse-info">
+      <p class="hcourse-org">${org}</p>
+      <p class="hcourse-title">${title}</p>
+      <div class="hcourse-meta"><svg class="icon filled"><use href="#i-star"/></svg> 4.${7-(i%3)} · ${type}</div>
+    </div>
+  </div>`;
+}
+
+const trendData = [
+  {title:'En popüler', items:[
+    ['Marmara Akademi','Python ile Programlamaya Giriş','Kurs'],
+    ['Bilişim Enstitüsü','Veri Analizi Temelleri','Kurs'],
+    ['Anadolu Eğitim','İngilizce Konuşma Pratiği','Uzmanlık Dalı']
+  ]},
+  {title:'Haftanın öne çıkanları', items:[
+    ['Fen Akademi','Yapay Zekâya Giriş','Kurs'],
+    ['Kodlama Vadisi','Web Geliştirme Temelleri','Uzmanlık Dalı'],
+    ['Sayısal Kampüs','Matematik: Türev ve İntegral','Kurs']
+  ]},
+  {title:'Talep edilen yapay zekâ becerileri', items:[
+    ['Veri Bilim Okulu','Makine Öğrenmesi Temelleri','Kurs'],
+    ['Kodlama Vadisi','Derin Öğrenme ile Görüntü İşleme','Uzmanlık Dalı'],
+    ['Bilişim Enstitüsü','ChatGPT ve Üretken Yapay Zekâ','Kurs']
+  ]}
+];
+
+document.getElementById('trendGrid').innerHTML = trendData.map((col,ci)=>`
+  <div class="trend-col">
+    <div class="trend-col-head"><h3>${col.title}</h3><svg class="icon"><use href="#i-arrow-right"/></svg></div>
+    ${col.items.map((it,i)=>hcourse(ci*3+i, it[0], it[1], it[2])).join('')}
+  </div>
+`).join('');
+
+/* ============ PROGRAM CARDS (career band, tabbed) ============ */
+const tabPrograms = [
+  [ // Veri Bilimi
+    ['Veri Bilim Okulu','Veri Bilimi Uzmanlık Programı','Uzmanlık Dalı'],
+    ['Bilişim Enstitüsü','SQL ile Veri Yönetimi','Kurs'],
+    ['Sayısal Kampüs','İstatistik ve Olasılık','Kurs'],
+    ['Fen Akademi','Veri Görselleştirme','Kurs']
+  ],
+  [ // Yazılım
+    ['Kodlama Vadisi','Sıfırdan Web Geliştirici Ol','Uzmanlık Dalı'],
+    ['Bilişim Enstitüsü','Java ile Nesne Yönelimli Programlama','Kurs'],
+    ['Marmara Akademi','Mobil Uygulama Geliştirme','Kurs'],
+    ['Kodlama Vadisi','Veritabanı Yönetim Sistemleri','Kurs']
+  ],
+  [ // Satış & Pazarlama
+    ['Ticaret Akademi','Dijital Pazarlama Temelleri','Kurs'],
+    ['Girişim Okulu','Marka Yönetimi','Kurs'],
+    ['Ticaret Akademi','Sosyal Medya Stratejileri','Uzmanlık Dalı'],
+    ['Girişim Okulu','Satış Teknikleri','Kurs']
+  ],
+  [ // İş Yönetimi
+    ['Girişim Okulu','Proje Yönetimi Esasları','Kurs'],
+    ['Ticaret Akademi','Liderlik ve Takım Yönetimi','Uzmanlık Dalı'],
+    ['Anadolu Eğitim','İş Analitiği','Kurs'],
+    ['Girişim Okulu','Finansal Okuryazarlık','Kurs']
+  ],
+  [ // Yazılım Mühendisliği
+    ['Kodlama Vadisi','Yazılım Mimarisine Giriş','Kurs'],
+    ['Bilişim Enstitüsü','Bulut Bilişim Temelleri','Kurs'],
+    ['Marmara Akademi','Test ve Kalite Güvencesi','Kurs'],
+    ['Kodlama Vadisi','DevOps Uygulamaları','Uzmanlık Dalı']
+  ]
+];
+
+function programCard(i, org, title, type){
+  return `<div class="program-card">
+    <div class="program-thumb" style="background:${pick(palette,i+2)}"><svg class="icon"><use href="#${pick(icons,i+3)}"/></svg></div>
+    <div class="program-body">
+      <div class="program-org"><span class="org-dot" style="background:${pick(palette,i)}"></span>${org}</div>
+      <p class="program-title">${title}</p>
+      <div class="program-foot">
+        <span>${type}</span>
+        <span class="stars"><svg class="icon"><use href="#i-star"/></svg> 4.${8-(i%4)}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPrograms(tabIndex){
+  const data = tabPrograms[tabIndex];
+  document.getElementById('programGrid').innerHTML = data.map((it,i)=>programCard(i,it[0],it[1],it[2])).join('');
+}
+renderPrograms(0);
+
+document.querySelectorAll('.pill-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.pill-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPrograms(Number(btn.dataset.tab));
+  });
+});
+
+/* ============ INSTITUTION LOGOS ============ */
+const institutions = ['Marmara Akademi','Bilişim Enstitüsü','Anadolu Eğitim','Fen Akademi','Kodlama Vadisi','Sayısal Kampüs','Veri Bilim Okulu','Ticaret Akademi','Girişim Okulu','Kültür Koleji'];
+document.getElementById('logosStrip').innerHTML = institutions.map((name,i)=>`
+  <div class="logo-pill">
+    <span class="logo-mark" style="background:${pick(palette,i)}">${name.charAt(0)}</span>
+    <span>${name}</span>
+  </div>
+`).join('');
+
+/* ============ WHITE COURSE CARDS (blue & category bands) ============ */
+function wcourse(i, org, title, type){
+  return `<div class="wcourse-card">
+    <div class="wcourse-thumb" style="background:${pick(palette,i+1)}"><svg class="icon"><use href="#${pick(icons,i+1)}"/></svg></div>
+    <div class="wcourse-body">
+      <p class="wcourse-org">${org}</p>
+      <p class="wcourse-title">${title}</p>
+      <p class="wcourse-type">${type}</p>
+      <div class="wcourse-rating"><svg class="icon filled"><use href="#i-star"/></svg> 4.${9-(i%3)}</div>
+    </div>
+  </div>`;
+}
+
+const blueBandData = [
+  ['Marmara Akademi','Kariyer Odaklı Python Eğitimi','Kurs'],
+  ['Bilişim Enstitüsü','İleri Excel ve Veri Analizi','Kurs'],
+  ['Anadolu Eğitim','Etkili İletişim Becerileri','Uzmanlık Dalı'],
+  ['Fen Akademi','Sınavlara Hazırlık: Matematik','Kurs']
+];
+document.getElementById('blueBandCards').innerHTML = blueBandData.map((it,i)=>wcourse(i,it[0],it[1],it[2])).join('');
+
+const catBandData = [
+  ['Kodlama Vadisi','Frontend Geliştirme Yol Haritası','Uzmanlık Dalı'],
+  ['Bilişim Enstitüsü','Backend ile API Geliştirme','Kurs'],
+  ['Marmara Akademi','Yazılımda Sürüm Kontrolü (Git)','Kurs'],
+  ['Kodlama Vadisi','Yapay Zekâ Destekli Kodlama','Kurs']
+];
+document.getElementById('catBandCards').innerHTML = catBandData.map((it,i)=>wcourse(i+2,it[0],it[1],it[2])).join('');
+
+/* ============ CAREER CARDS ============ */
+const careerData = [
+  ['Yazılım Geliştirici','Web ve mobil uygulamalar geliştirerek fikirleri hayata geçiren teknik bir kariyer yolu.'],
+  ['Veri Analisti','Verilerden anlamlı içgörüler çıkararak şirketlerin karar süreçlerine destek olur.'],
+  ['Dijital Pazarlama Uzmanı','Markaların dijital dünyada görünürlüğünü artıran stratejiler geliştirir.'],
+  ['Öğretmen / Eğitmen','Alanında uzmanlaşarak öğrencilere bilgi ve beceri kazandırır.'],
+  ['Proje Yöneticisi','Ekipleri koordine ederek projelerin zamanında ve bütçe dahilinde tamamlanmasını sağlar.']
+];
+document.getElementById('careerCardsGrid').innerHTML = careerData.map((it,i)=>`
+  <div class="career-card">
+    <div class="career-card-img" style="background:linear-gradient(135deg, ${pick(palette,i)}, ${pick(palette,i+3)})">
+      <svg viewBox="0 0 100 90" width="70%" height="80%">
+        <circle cx="50" cy="30" r="16" fill="rgba(255,255,255,.9)"/>
+        <path d="M22 90 C22 55 34 42 50 42 C66 42 78 55 78 90 Z" fill="rgba(255,255,255,.9)"/>
+        <polygon points="85,5 100,20 78,25" fill="rgba(255,255,255,.35)"/>
+      </svg>
+    </div>
+    <div class="career-card-body">
+      <h4>${it[0]}</h4>
+      <p>${it[1]}</p>
+    </div>
+  </div>
+`).join('');
+
+/* ============ EXPLORE DROPDOWN ============ */
+const exploreDropdown = document.getElementById('exploreDropdown');
+exploreDropdown.addEventListener('click', (e)=>{
+  exploreDropdown.classList.toggle('open');
+  e.stopPropagation();
+});
+document.addEventListener('click', ()=>exploreDropdown.classList.remove('open'));
+
+/* ============ USER SESSION / NAV AUTH STATE ============ */
+(function(){
+  const session = novargeGetSession();
+  const authGuest = document.getElementById('authGuest');
+  const authUser = document.getElementById('authUser');
+  const userMenu = document.getElementById('authUser');
+  const userDropdown = document.getElementById('userDropdown');
+  const userChipBtn = document.getElementById('userChipBtn');
+  const adminPanelLink = document.getElementById('adminPanelLink');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const mobileAuthGuest = document.getElementById('mobileAuthGuest');
+  const mobileAuthUser = document.getElementById('mobileAuthUser');
+  const mobileAdminPanelLink = document.getElementById('mobileAdminPanelLink');
+  const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+
+  if(session && session.username){
+    authGuest.style.display = 'none';
+    userMenu.classList.add('show');
+    document.getElementById('userNameLabel').textContent = session.username;
+    document.getElementById('userAvatar').textContent = session.username.charAt(0).toUpperCase();
+
+    mobileAuthGuest.style.display = 'none';
+    mobileAuthUser.style.display = 'block';
+    document.getElementById('mobileUserNameLabel').textContent = session.username;
+    document.getElementById('mobileUserAvatar').textContent = session.username.charAt(0).toUpperCase();
+
+    if(session.role === 'admin' || session.role === 'assistant_admin'){
+      adminPanelLink.classList.add('show');
+      mobileAdminPanelLink.classList.add('show');
+    }
+  }
+
+  userChipBtn && userChipBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    userMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function(){ userMenu.classList.remove('open'); });
+
+  function handleLogout(){
+    novargeClearSession();
+    window.location.href = 'index.html';
+  }
+  logoutBtn && logoutBtn.addEventListener('click', handleLogout);
+  mobileLogoutBtn && mobileLogoutBtn.addEventListener('click', handleLogout);
+
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileNavPanel = document.getElementById('mobileNavPanel');
+  hamburgerBtn && hamburgerBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    mobileNavPanel.classList.toggle('open');
+  });
+})();
+
+/* ============ HERO SLIDER (auto + dots) ============ */
+const heroSlides = [
+  null, // slide 0 uses the markup already in place
+  {
+    dark:{eyebrow:'Novarge Akademi', title:'Kendi Hızınızda İlerleyin', desc:'İstediğiniz zaman, istediğiniz yerden derslerinize erişin.', cta:'Derslere Göz At'},
+    blue:{eyebrow:'Sertifika Programları', title:'Alanınızda Uzmanlaşın', desc:'Sektör tarafından tanınan sertifika programlarıyla fark yaratın.', cta:'Programları Gör'}
+  },
+  {
+    dark:{eyebrow:'Okullar İçin', title:'Sınıfınızı Dijitalleştirin', desc:'Öğretmenler için hazır ders materyalleri ve takip araçları.', cta:'Okullar İçin Novarge Akademi'},
+    blue:{eyebrow:'Topluluk', title:'Birlikte Daha Hızlı Öğrenin', desc:'Çalışma gruplarına katılın, sorularınızı sorun, birlikte gelişin.', cta:'Topluluğa Katıl'}
+  }
+];
+
+let currentSlide = 0;
+const heroTrack = document.getElementById('heroTrack');
+const dotsWrap = document.getElementById('sliderDots');
+const originalHero = heroTrack.innerHTML;
+
+function renderSlide(i){
+  if(i === 0){ heroTrack.innerHTML = originalHero; return; }
+  const s = heroSlides[i];
+  heroTrack.innerHTML = `
+    <div class="hero-card card-dark">
+      <div class="hero-eyebrow">${s.dark.eyebrow}</div>
+      <h1 class="hero-title">${s.dark.title}</h1>
+      <p class="hero-desc">${s.dark.desc}</p>
+      <a href="#" class="btn btn-white">${s.dark.cta} <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      <div class="hero-visual">
+        <svg viewBox="0 0 200 260" style="position:absolute;bottom:0;right:20px;width:150px;">
+          <circle cx="100" cy="70" r="42" fill="rgba(255,255,255,.12)"/>
+          <circle cx="100" cy="62" r="24" fill="rgba(255,255,255,.9)"/>
+          <path d="M55 250 C55 180 75 150 100 150 C125 150 145 180 145 250 Z" fill="rgba(255,255,255,.9)"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-card card-blue">
+      <div class="hero-eyebrow">${s.blue.eyebrow}</div>
+      <h1 class="hero-title">${s.blue.title}</h1>
+      <p class="hero-desc">${s.blue.desc}</p>
+      <a href="#" class="btn btn-white">${s.blue.cta} <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      <div class="hero-visual">
+        <svg viewBox="0 0 220 220" width="210" height="210">
+          <polygon points="180,20 210,60 170,80" fill="var(--pink)" opacity="0.85"/>
+          <polygon points="20,140 60,120 55,170" fill="var(--purple)" opacity="0.8"/>
+          <circle cx="110" cy="110" r="80" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+          <circle cx="110" cy="90" r="26" fill="#fff"/>
+          <path d="M65 200 C65 150 85 130 110 130 C135 130 155 150 155 200 Z" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
+  `;
+}
+
+function goToSlide(i){
+  currentSlide = i;
+  renderSlide(i);
+  dotsWrap.querySelectorAll('button').forEach(b=>b.classList.toggle('active', Number(b.dataset.i)===i));
+}
+
+dotsWrap.querySelectorAll('button').forEach(b=>{
+  b.addEventListener('click', ()=>{ goToSlide(Number(b.dataset.i)); resetAutoplay(); });
+});
+
+let autoplayTimer;
+function resetAutoplay(){
+  clearInterval(autoplayTimer);
+  autoplayTimer = setInterval(()=>{ goToSlide((currentSlide+1)%3); }, 6000);
+}
+resetAutoplay();
+</script>
+
+<script src="assets/js/assistant-config.js"></script>
+<script src="assets/js/assistant.js"></script>
+
+</body>
+</html>

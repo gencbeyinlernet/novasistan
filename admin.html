@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yönetici Paneli | Novarge Akademi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230B1120'/%3E%3Cpath d='M12 4 21 8.5 12 13 3 8.5Z' fill='%230866E8'/%3E%3Cpath d='M6.5 10 12 12.5 17.5 10v3.2c0 1.3-2.5 2.3-5.5 2.3S6.5 14.5 6.5 13.2Z' fill='%230866E8'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0056D2;
+    --blue-vivid:#0866E8;
+    --navy:#062E6F;
+    --sidebar:#0B1120;
+    --sidebar-hover:#161F35;
+    --bg-gray-blue:#F1F5FC;
+    --white:#FFFFFF;
+    --text:#151515;
+    --text-secondary:#4A5568;
+    --border:#E1E7F2;
+    --danger:#D64545;
+    --success:#1E8E3E;
+    --r-xl:26px;
+    --r-lg:18px;
+    --r-md:14px;
+    --r-sm:10px;
+    --r-pill:999px;
+    --shadow-card:0 20px 50px rgba(6,46,111,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg-gray-blue);
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .icon{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+  /* ============ LOADING / REDIRECT STATE ============ */
+  .admin-loading{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    background:radial-gradient(circle at 20% 20%, #0F1B36, var(--sidebar) 60%);
+    color:#C6CEDD;
+  }
+  .admin-loading.hide{display:none;}
+  .admin-loading-logo{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;color:#fff;}
+  .admin-loading-logo .icon{width:22px;height:22px;color:var(--blue-vivid);}
+  .admin-spinner{
+    width:26px;height:26px;border-radius:50%;
+    border:3px solid rgba(255,255,255,.18);
+    border-top-color:var(--blue-vivid);
+    animation:admin-spin .8s linear infinite;
+  }
+  @keyframes admin-spin{to{transform:rotate(360deg);}}
+  .admin-loading p{font-size:13px;color:#8CA0C6;margin:0;}
+
+  /* ============ DASHBOARD SHELL ============ */
+  .admin-shell{display:none;min-height:100vh;}
+  .admin-shell.show{display:flex;}
+
+  .admin-sidebar{
+    width:230px;
+    flex-shrink:0;
+    background:var(--sidebar);
+    color:#C6CEDD;
+    display:flex;
+    flex-direction:column;
+    padding:22px 16px;
+  }
+  .admin-sidebar-logo{
+    display:flex;align-items:center;gap:8px;
+    font-size:16px;font-weight:800;color:#fff;
+    padding:0 8px;margin-bottom:6px;
+  }
+  .admin-sidebar-logo .icon{width:20px;height:20px;color:var(--blue-vivid);}
+  .admin-sidebar-tag{
+    font-size:11px;color:#7C8AA8;padding:0 8px;margin-bottom:28px;
+    text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+  }
+  .admin-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+  .admin-nav a, .admin-nav .admin-nav-disabled{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 10px;border-radius:var(--r-sm);
+    font-size:13.5px;font-weight:600;
+  }
+  .admin-nav a.active{background:var(--blue-vivid);color:#fff;}
+  .admin-nav a:hover:not(.active){background:var(--sidebar-hover);color:#fff;}
+  .admin-nav .admin-nav-disabled{color:#4E5A73;cursor:default;}
+  .admin-nav .icon{width:16px;height:16px;flex-shrink:0;}
+  .admin-nav-soon{
+    margin-left:auto;font-size:10px;background:#1E2A45;color:#8CA0C6;
+    padding:2px 6px;border-radius:var(--r-pill);font-weight:700;
+  }
+  .admin-sidebar-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    border-top:1px solid #1D2740;padding-top:16px;margin-top:16px;
+  }
+  .admin-sidebar-user{display:flex;align-items:center;gap:8px;min-width:0;}
+  .admin-sidebar-avatar{
+    width:30px;height:30px;border-radius:50%;background:var(--blue-vivid);
+    color:#fff;font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .admin-sidebar-user span{
+    font-size:13px;font-weight:600;color:#fff;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .admin-logout-btn{
+    background:none;border:none;color:#8CA0C6;padding:6px;flex-shrink:0;
+  }
+  .admin-logout-btn:hover{color:#fff;}
+  .admin-logout-btn .icon{width:16px;height:16px;}
+
+  .admin-main{flex:1;min-width:0;padding:32px 36px;}
+  .admin-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .admin-header h1{font-size:23px;font-weight:800;margin:0 0 4px;}
+  .admin-header p{font-size:13.5px;color:var(--text-secondary);margin:0;}
+  .admin-back-link{font-size:12.5px;font-weight:600;color:var(--text-secondary);flex-shrink:0;}
+  .admin-back-link:hover{color:var(--blue);}
+
+  .admin-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;
+  }
+  .stat-card{
+    background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);
+    padding:18px;display:flex;align-items:center;gap:14px;
+  }
+  .stat-icon{
+    width:42px;height:42px;border-radius:12px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .stat-icon .icon{width:19px;height:19px;}
+  .stat-value{font-size:22px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:12px;color:var(--text-secondary);margin-top:2px;}
+
+  .admin-table-card{
+    background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);
+    overflow:hidden;
+  }
+  .admin-table-head{
+    padding:16px 20px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .admin-table-head h2{font-size:15.5px;font-weight:700;margin:0;}
+  .admin-search{
+    display:flex;align-items:center;gap:8px;
+    border:1.5px solid var(--border);border-radius:var(--r-pill);
+    padding:0 12px;height:36px;width:220px;
+  }
+  .admin-search .icon{width:14px;height:14px;color:var(--text-secondary);}
+  .admin-search input{border:none;outline:none;flex:1;font-size:13px;font-family:inherit;background:transparent;}
+
+  .admin-table-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:480px;}
+  thead th{
+    text-align:left;font-size:11.5px;font-weight:700;color:var(--text-secondary);
+    text-transform:uppercase;letter-spacing:.04em;
+    padding:10px 20px;border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  tbody td{
+    padding:13px 20px;font-size:13.5px;border-bottom:1px solid #F0F3F9;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FAFCFF;}
+  .cell-user{display:flex;align-items:center;gap:10px;font-weight:600;}
+  .cell-avatar{
+    width:28px;height:28px;border-radius:50%;background:var(--bg-gray-blue);
+    color:var(--blue);font-size:12px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .role-badge{
+    display:inline-block;padding:4px 10px;border-radius:var(--r-pill);
+    font-size:11.5px;font-weight:700;
+  }
+  .role-student{background:#EAF2FF;color:var(--blue);}
+  .role-teacher{background:#F4EFFC;color:#8A4FD6;}
+  .role-editor{background:#EAFBF3;color:#1E8E6C;}
+  .role-assistant_admin{background:#FFF0E6;color:#C2540A;}
+  .role-admin{background:#FFF3E0;color:#B4690E;}
+  .empty-row td{padding:36px 20px;text-align:center;color:var(--text-secondary);font-size:13.5px;}
+
+  .role-select{
+    border:1.5px solid var(--border);border-radius:var(--r-sm);
+    padding:6px 8px;font-size:12.5px;font-family:inherit;color:var(--text);
+    background:#fff;height:32px;
+  }
+  .role-select:focus{border-color:var(--blue);outline:none;}
+  .row-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .row-btn{
+    background:none;border:1.5px solid var(--border);border-radius:var(--r-sm);
+    padding:6px 10px;font-size:12px;font-weight:600;color:var(--text-secondary);
+  }
+  .row-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .row-btn.danger:hover{border-color:var(--danger);color:var(--danger);}
+  .row-protected{font-size:12px;color:#A9B4C4;font-style:italic;}
+
+  .admin-toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:#151515;color:#fff;padding:12px 18px;border-radius:12px;
+    font-size:13.5px;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.25);
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;
+    max-width:calc(100vw - 32px);
+  }
+  .admin-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .admin-toast.error{background:var(--danger);}
+  .admin-toast.success{background:var(--success);}
+
+  @media (max-width:860px){
+    .admin-stats{grid-template-columns:1fr 1fr;}
+    .admin-sidebar{width:74px;padding:18px 10px;}
+    .admin-sidebar-logo span, .admin-sidebar-tag, .admin-nav a span, .admin-nav-soon, .admin-sidebar-user span{display:none;}
+    .admin-nav a, .admin-nav .admin-nav-disabled{justify-content:center;}
+    .admin-main{padding:24px 18px;}
+  }
+  @media (max-width:520px){
+    .admin-stats{grid-template-columns:1fr;}
+    .admin-search{width:150px;}
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.06z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+</svg>
+
+<!-- ============ LOADING / GATE STATE ============ -->
+<div class="admin-loading" id="adminLoading">
+  <div class="admin-loading-logo"><svg class="icon"><use href="#i-graduation"/></svg>Novarge Akademi</div>
+  <div class="admin-spinner"></div>
+  <p id="adminLoadingText">Yönetici oturumu kontrol ediliyor…</p>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="admin-shell" id="adminDashboard">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo"><svg class="icon"><use href="#i-graduation"/></svg><span>Novarge Akademi</span></div>
+    <p class="admin-sidebar-tag">Yönetici Paneli</p>
+    <nav class="admin-nav">
+      <a href="#" class="active"><svg class="icon"><use href="#i-users"/></svg><span>Kullanıcılar</span></a>
+      <span class="admin-nav-disabled"><svg class="icon"><use href="#i-book"/></svg><span>Dersler</span><span class="admin-nav-soon">Yakında</span></span>
+      <span class="admin-nav-disabled"><svg class="icon"><use href="#i-settings"/></svg><span>Ayarlar</span><span class="admin-nav-soon">Yakında</span></span>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <div class="admin-sidebar-user">
+        <span class="admin-sidebar-avatar" id="adminAvatar"></span>
+        <span id="adminNameLabel"></span>
+      </div>
+      <button class="admin-logout-btn" id="logoutBtn" aria-label="Çıkış yap"><svg class="icon"><use href="#i-logout"/></svg></button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <div>
+        <h1>Kullanıcılar</h1>
+        <p>Sisteme kayıt olan tüm öğrenci, öğretmen ve yöneticiler.</p>
+      </div>
+      <a href="index.html" class="admin-back-link">← Ana sayfaya dön</a>
+    </div>
+
+    <div class="admin-stats">
+      <div class="stat-card">
+        <span class="stat-icon" style="background:var(--navy);"><svg class="icon"><use href="#i-users"/></svg></span>
+        <div><div class="stat-value" id="statTotal">0</div><div class="stat-label">Toplam kullanıcı</div></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon" style="background:var(--blue);"><svg class="icon"><use href="#i-user"/></svg></span>
+        <div><div class="stat-value" id="statStudents">0</div><div class="stat-label">Öğrenci</div></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon" style="background:#8A4FD6;"><svg class="icon"><use href="#i-book"/></svg></span>
+        <div><div class="stat-value" id="statTeachers">0</div><div class="stat-label">Öğretmen</div></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon" style="background:#B4690E;"><svg class="icon"><use href="#i-shield"/></svg></span>
+        <div><div class="stat-value" id="statAdmins">0</div><div class="stat-label">Yönetici</div></div>
+      </div>
+    </div>
+
+    <div class="admin-table-card">
+      <div class="admin-table-head">
+        <h2>Tüm kullanıcılar</h2>
+        <div class="admin-search">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input type="text" id="userSearch" placeholder="Kullanıcı adı ara…">
+        </div>
+      </div>
+      <div class="admin-table-scroll">
+        <table>
+          <thead>
+            <tr><th>Kullanıcı adı</th><th>Rol</th><th>Kayıt tarihi</th><th>İşlemler</th></tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr class="empty-row"><td colspan="4">Yükleniyor…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="admin-toast" id="adminToast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js"></script>
+<script src="supabase/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/session.js"></script>
+<script>
+const ADMIN_PW_KEY = 'novarge_admin_pw';
+const loading = document.getElementById('adminLoading');
+const loadingText = document.getElementById('adminLoadingText');
+const dashboard = document.getElementById('adminDashboard');
+const ASSIGNABLE_ROLES = ['student', 'teacher', 'editor', 'assistant_admin'];
+let allUsers = [];
+let currentSession = null;
+let currentPassword = null;
+
+function roleLabel(r){
+  return { student:'Öğrenci', teacher:'Öğretmen', editor:'Editör', assistant_admin:'Yardımcı Yönetici', admin:'Yönetici' }[r] || r;
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+function formatDate(iso){
+  const d = new Date(iso);
+  if(isNaN(d)) return '—';
+  return d.toLocaleDateString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric' }) + ' · ' +
+         d.toLocaleTimeString('tr-TR', { hour:'2-digit', minute:'2-digit' });
+}
+
+let toastTimer = null;
+function showToast(type, text){
+  const t = document.getElementById('adminToast');
+  t.textContent = text;
+  t.className = 'admin-toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+function refreshStats(users){
+  document.getElementById('statTotal').textContent = users.length;
+  document.getElementById('statStudents').textContent = users.filter(function(u){ return u.role === 'student'; }).length;
+  document.getElementById('statTeachers').textContent = users.filter(function(u){ return u.role === 'teacher'; }).length;
+  document.getElementById('statAdmins').textContent = users.filter(function(u){ return u.role === 'admin'; }).length;
+}
+
+function renderUsers(list){
+  const tbody = document.getElementById('usersTableBody');
+  if(!list.length){
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Kayıtlı kullanıcı bulunamadı.</td></tr>';
+    return;
+  }
+  const isFullAdmin = currentSession.role === 'admin';
+  tbody.innerHTML = list.map(function(u){
+    const isSelf = u.username.toLowerCase() === currentSession.username.toLowerCase();
+    const isProtected = isSelf || u.role === 'admin';
+
+    let roleCell;
+    if(isFullAdmin && !isProtected){
+      roleCell = `<select class="role-select" data-username="${escapeHtml(u.username)}">` +
+        ASSIGNABLE_ROLES.map(function(r){
+          return `<option value="${r}" ${r === u.role ? 'selected' : ''}>${roleLabel(r)}</option>`;
+        }).join('') + `</select>`;
+    } else {
+      roleCell = `<span class="role-badge role-${u.role}">${roleLabel(u.role)}</span>`;
+    }
+
+    const actionsCell = isProtected
+      ? `<span class="row-protected">${isSelf ? 'Bu sizsiniz' : 'Korunuyor'}</span>`
+      : `<div class="row-actions">
+           <button type="button" class="row-btn" data-action="reset-pw" data-username="${escapeHtml(u.username)}">Şifre sıfırla</button>
+           <button type="button" class="row-btn danger" data-action="delete" data-username="${escapeHtml(u.username)}">Sil</button>
+         </div>`;
+
+    return `<tr>
+      <td><div class="cell-user"><span class="cell-avatar">${escapeHtml(u.username.charAt(0).toUpperCase())}</span>${escapeHtml(u.username)}</div></td>
+      <td>${roleCell}</td>
+      <td>${formatDate(u.created_at)}</td>
+      <td>${actionsCell}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderDashboard(session, users){
+  currentSession = session;
+  allUsers = users;
+  loading.classList.add('hide');
+  dashboard.classList.add('show');
+
+  document.getElementById('adminNameLabel').textContent = session.username;
+  document.getElementById('adminAvatar').textContent = session.username.charAt(0).toUpperCase();
+
+  refreshStats(users);
+  renderUsers(users);
+}
+
+document.getElementById('userSearch').addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  renderUsers(allUsers.filter(function(u){ return u.username.toLowerCase().includes(q); }));
+});
+
+document.getElementById('usersTableBody').addEventListener('change', async function(e){
+  const select = e.target.closest('.role-select');
+  if(!select) return;
+  const username = select.dataset.username;
+  const newRole = select.value;
+  const user = allUsers.find(function(u){ return u.username === username; });
+  const previousRole = user ? user.role : select.value;
+
+  if(!confirm(`"${username}" kullanıcısının rolünü "${roleLabel(newRole)}" olarak değiştirmek istediğinize emin misiniz?`)){
+    select.value = previousRole;
+    return;
+  }
+
+  select.disabled = true;
+  const { data, error } = await sbClient.rpc('admin_set_user_role', {
+    p_admin_username: currentSession.username,
+    p_admin_password: currentPassword,
+    p_target_username: username,
+    p_new_role: newRole
+  });
+  select.disabled = false;
+
+  if(error || !data || !data.success){
+    select.value = previousRole;
+    showToast('error', (data && data.message) || 'Rol güncellenemedi.');
+    return;
+  }
+
+  if(user) user.role = newRole;
+  refreshStats(allUsers);
+  showToast('success', 'Rol güncellendi.');
+});
+
+document.getElementById('usersTableBody').addEventListener('click', async function(e){
+  const btn = e.target.closest('.row-btn');
+  if(!btn) return;
+  const username = btn.dataset.username;
+  const action = btn.dataset.action;
+
+  if(action === 'delete'){
+    if(!confirm(`"${username}" kullanıcısını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`)) return;
+    btn.disabled = true;
+    const { data, error } = await sbClient.rpc('admin_delete_user', {
+      p_caller_username: currentSession.username,
+      p_caller_password: currentPassword,
+      p_target_username: username
+    });
+    if(error || !data || !data.success){
+      btn.disabled = false;
+      showToast('error', (data && data.message) || 'Kullanıcı silinemedi.');
+      return;
+    }
+    allUsers = allUsers.filter(function(u){ return u.username !== username; });
+    refreshStats(allUsers);
+    renderUsers(allUsers);
+    showToast('success', 'Kullanıcı silindi.');
+    return;
+  }
+
+  if(action === 'reset-pw'){
+    const newPassword = prompt(`"${username}" için yeni şifre belirleyin (en az 6 karakter):`);
+    if(newPassword === null) return;
+    if(newPassword.length < 6){
+      showToast('error', 'Şifre en az 6 karakter olmalıdır.');
+      return;
+    }
+    btn.disabled = true;
+    const { data, error } = await sbClient.rpc('admin_reset_password', {
+      p_caller_username: currentSession.username,
+      p_caller_password: currentPassword,
+      p_target_username: username,
+      p_new_password: newPassword
+    });
+    btn.disabled = false;
+    if(error || !data || !data.success){
+      showToast('error', (data && data.message) || 'Şifre güncellenemedi.');
+      return;
+    }
+    showToast('success', 'Şifre güncellendi.');
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', function(){
+  novargeClearSession();
+  sessionStorage.removeItem(ADMIN_PW_KEY);
+  window.location.href = 'index.html';
+});
+
+function bounceToLogin(){
+  novargeClearSession();
+  sessionStorage.removeItem(ADMIN_PW_KEY);
+  window.location.href = 'login.html';
+}
+
+async function init(){
+  const session = novargeGetSession();
+
+  if(!session || !session.username){
+    bounceToLogin();
+    return;
+  }
+  if(session.role !== 'admin' && session.role !== 'assistant_admin'){
+    window.location.href = 'index.html';
+    return;
+  }
+
+  const password = sessionStorage.getItem(ADMIN_PW_KEY);
+  if(!password){
+    // Bu sekmede daha önce giriş yapılmamış (ör. yeni sekmede açıldı) — tekrar giriş gerekir.
+    bounceToLogin();
+    return;
+  }
+
+  const { data, error } = await sbClient.rpc('list_users', { p_admin_username: session.username, p_admin_password: password });
+
+  if(error){
+    loadingText.textContent = 'Bağlantı hatası oluştu. Sayfa birazdan tekrar denenecek…';
+    setTimeout(init, 2000);
+    return;
+  }
+  if(!data || !data.success){
+    bounceToLogin();
+    return;
+  }
+
+  currentPassword = password;
+  renderDashboard(session, data.users);
+}
+
+init();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kayıt Ol | Novarge Akademi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230056D2'/%3E%3Cpath d='M12 4 21 8.5 12 13 3 8.5Z' fill='%23fff'/%3E%3Cpath d='M6.5 10 12 12.5 17.5 10v3.2c0 1.3-2.5 2.3-5.5 2.3S6.5 14.5 6.5 13.2Z' fill='%23fff'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0056D2;
+    --blue-vivid:#0866E8;
+    --navy:#062E6F;
+    --topbar:#101214;
+    --bg-light-blue:#EAF2FF;
+    --bg-gray-blue:#F1F5FC;
+    --white:#FFFFFF;
+    --text:#151515;
+    --text-secondary:#4A5568;
+    --border:#D5DFEE;
+    --pink:#F3A4D5;
+    --purple:#B777F2;
+    --green:#75D474;
+    --turquoise:#63C9C7;
+    --danger:#D64545;
+    --r-xl:26px;
+    --r-lg:18px;
+    --r-md:14px;
+    --r-sm:10px;
+    --r-pill:999px;
+    --shadow-hover:0 4px 14px rgba(20,40,80,0.08);
+    --shadow-card:0 20px 50px rgba(6,46,111,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg-gray-blue);
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .icon{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+  .icon.filled{fill:currentColor;stroke:none;}
+
+  .topbar{
+    height:64px;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    background:#fff;
+    border-bottom:1px solid var(--bg-gray-blue);
+  }
+  .logo{
+    font-size:20px;
+    font-weight:800;
+    color:var(--blue);
+    letter-spacing:-.4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .logo .icon{width:24px;height:24px;color:var(--blue);}
+
+  .stage{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+  }
+  .auth-shell{
+    width:100%;
+    max-width:880px;
+    background:#fff;
+    border-radius:var(--r-xl);
+    box-shadow:var(--shadow-card);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    overflow:hidden;
+    min-height:560px;
+  }
+  .auth-visual{
+    background:linear-gradient(150deg,#0A62E4 0%,#3FA8E8 55%,#75D474 100%);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    overflow:hidden;
+    color:#fff;
+  }
+  .auth-visual .logo{color:#fff;}
+  .auth-visual-copy h2{
+    font-size:26px;
+    font-weight:800;
+    line-height:1.3;
+    margin:120px 0 12px;
+    max-width:280px;
+  }
+  .auth-visual-copy p{
+    font-size:14px;
+    color:rgba(255,255,255,.9);
+    max-width:270px;
+    margin:0 0 22px;
+  }
+  .auth-perks{display:flex;flex-direction:column;gap:12px;}
+  .auth-perk{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13.5px;
+    color:rgba(255,255,255,.95);
+  }
+  .auth-perk .perk-icon{
+    width:24px;height:24px;
+    border-radius:50%;
+    background:rgba(255,255,255,.2);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .auth-perk .perk-icon .icon{width:13px;height:13px;}
+  .auth-visual-deco{position:absolute;inset:0;pointer-events:none;}
+
+  .auth-form-panel{
+    padding:44px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .auth-heading{
+    font-size:24px;
+    font-weight:800;
+    margin:0 0 6px;
+  }
+  .auth-sub{
+    font-size:13.5px;
+    color:var(--text-secondary);
+    margin:0 0 26px;
+  }
+  .field{
+    margin-bottom:16px;
+  }
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:6px;
+  }
+  .field-input{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border:1.5px solid var(--border);
+    border-radius:var(--r-sm);
+    padding:0 12px;
+    height:46px;
+    transition:border-color .15s;
+    background:#fff;
+  }
+  .field-input:focus-within{border-color:var(--blue);}
+  .field-input.has-error{border-color:var(--danger);}
+  .field-input .icon{width:17px;height:17px;color:var(--text-secondary);}
+  .field-input input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--text);
+    height:100%;
+    background:transparent;
+  }
+  .field-input input::placeholder{color:#9AA6B8;}
+  .field-hint{
+    font-size:11.5px;
+    color:var(--text-secondary);
+    margin-top:5px;
+  }
+  .toggle-pw{
+    background:none;
+    border:none;
+    padding:2px;
+    color:var(--text-secondary);
+    display:flex;
+  }
+  .toggle-pw .icon{width:17px;height:17px;}
+
+  .form-msg{
+    display:none;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:500;
+    padding:10px 12px;
+    border-radius:var(--r-sm);
+    margin-bottom:16px;
+  }
+  .form-msg .icon{width:16px;height:16px;flex-shrink:0;}
+  .form-msg.show{display:flex;}
+  .form-msg.info{background:var(--bg-light-blue);color:var(--blue);}
+  .form-msg.error{background:#FCEBEB;color:var(--danger);}
+  .form-msg.success{background:#EAFBEA;color:#1E8E3E;}
+
+  .btn-submit{
+    width:100%;
+    height:48px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:var(--blue);
+    color:#fff;
+    font-size:14.5px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:background .15s,opacity .15s;
+    margin-top:6px;
+  }
+  .btn-submit:hover{background:var(--blue-vivid);}
+  .btn-submit:disabled{opacity:.65;cursor:default;}
+  .btn-submit .icon{width:16px;height:16px;}
+
+  .auth-switch{
+    text-align:center;
+    font-size:13.5px;
+    color:var(--text-secondary);
+    margin-top:22px;
+  }
+  .auth-switch a{
+    color:var(--blue);
+    font-weight:600;
+  }
+  .auth-switch a:hover{text-decoration:underline;}
+
+  .back-home{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-secondary);
+    margin-top:26px;
+  }
+  .back-home .icon{width:14px;height:14px;}
+  .back-home:hover{color:var(--blue);}
+
+  @media (max-width:760px){
+    .auth-shell{grid-template-columns:1fr;min-height:auto;}
+    .auth-visual{display:none;}
+    .auth-form-panel{padding:36px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.6 19.6 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a19.6 19.6 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+</svg>
+
+<header class="topbar">
+  <a href="index.html" class="logo">
+    <svg class="icon"><use href="#i-graduation"/></svg>
+    Novarge Akademi
+  </a>
+</header>
+
+<main class="stage">
+  <div class="auth-shell">
+    <div class="auth-visual">
+      <a href="index.html" class="logo">
+        <svg class="icon"><use href="#i-graduation"/></svg>
+        Novarge Akademi
+      </a>
+      <div class="auth-visual-copy">
+        <h2>Bugün öğrenmeye başlayın</h2>
+        <p>Saniyeler içinde bir hesap oluşturun; öğretmen veya öğrenci olarak platforma katılın.</p>
+        <div class="auth-perks">
+          <div class="auth-perk"><span class="perk-icon"><svg class="icon"><use href="#i-check"/></svg></span>Ücretsiz hesap oluşturma</div>
+          <div class="auth-perk"><span class="perk-icon"><svg class="icon"><use href="#i-check"/></svg></span>Binlerce ders ve kaynağa erişim</div>
+          <div class="auth-perk"><span class="perk-icon"><svg class="icon"><use href="#i-check"/></svg></span>Dilediğiniz zaman iptal edin</div>
+        </div>
+      </div>
+      <div class="auth-visual-deco" aria-hidden="true">
+        <svg viewBox="0 0 400 560" width="100%" height="100%" style="position:absolute;inset:0;opacity:.5;">
+          <circle cx="360" cy="60" r="70" fill="rgba(255,255,255,.08)"/>
+          <circle cx="40" cy="500" r="90" fill="rgba(255,255,255,.06)"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="auth-form-panel">
+      <h1 class="auth-heading">Kayıt Ol</h1>
+      <p class="auth-sub">Hesap oluşturmak için bir kullanıcı adı ve şifre belirleyin.</p>
+
+      <div class="form-msg" id="formMsg"><svg class="icon"><use href="#i-alert"/></svg><span id="formMsgText"></span></div>
+
+      <form id="registerForm" novalidate>
+        <div class="field">
+          <label for="username">Kullanıcı adı</label>
+          <div class="field-input" id="usernameWrap">
+            <svg class="icon"><use href="#i-user"/></svg>
+            <input type="text" id="username" name="username" placeholder="kullaniciadi" autocomplete="username" maxlength="24">
+          </div>
+          <p class="field-hint">3-24 karakter; sadece harf, rakam, nokta, tire ve alt çizgi.</p>
+        </div>
+        <div class="field">
+          <label for="password">Şifre</label>
+          <div class="field-input" id="passwordWrap">
+            <svg class="icon"><use href="#i-lock"/></svg>
+            <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password">
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Şifreyi göster">
+              <svg class="icon"><use href="#i-eye"/></svg>
+            </button>
+          </div>
+          <p class="field-hint">En az 6 karakter kullanın.</p>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Kayıt Ol <svg class="icon"><use href="#i-arrow-right"/></svg>
+        </button>
+      </form>
+
+      <p class="auth-switch">Zaten hesabınız var mı? <a href="login.html">Giriş yapın</a></p>
+      <a href="index.html" class="back-home"><svg class="icon"><use href="#i-arrow-left"/></svg> Ana sayfaya dön</a>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js"></script>
+<script src="supabase/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const prefillUser = params.get('username');
+if(prefillUser){ document.getElementById('username').value = prefillUser; }
+
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const usernameWrap = document.getElementById('usernameWrap');
+const passwordWrap = document.getElementById('passwordWrap');
+const submitBtn = document.getElementById('submitBtn');
+
+document.getElementById('togglePw').addEventListener('click', function(){
+  const isPw = passwordInput.type === 'password';
+  passwordInput.type = isPw ? 'text' : 'password';
+  this.innerHTML = `<svg class="icon"><use href="#${isPw ? 'i-eye-off' : 'i-eye'}"></use></svg>`;
+});
+
+function showMsg(type, text){
+  const box = document.getElementById('formMsg');
+  const txt = document.getElementById('formMsgText');
+  box.className = 'form-msg show ' + type;
+  box.querySelector('use').setAttribute('href', type === 'success' ? '#i-check' : '#i-alert');
+  txt.textContent = text;
+}
+function clearFieldErrors(){
+  usernameWrap.classList.remove('has-error');
+  passwordWrap.classList.remove('has-error');
+}
+
+document.getElementById('registerForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  clearFieldErrors();
+
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
+
+  if(!username || !password){
+    if(!username) usernameWrap.classList.add('has-error');
+    if(!password) passwordWrap.classList.add('has-error');
+    showMsg('error','Kullanıcı adı ve şifre gereklidir.');
+    return;
+  }
+  if(!/^[A-Za-z0-9._-]{3,24}$/.test(username)){
+    usernameWrap.classList.add('has-error');
+    showMsg('error','Kullanıcı adı 3-24 karakter olmalı; sadece harf, rakam, nokta, tire ve alt çizgi içerebilir.');
+    return;
+  }
+  if(password.length < 6){
+    passwordWrap.classList.add('has-error');
+    showMsg('error','Şifre en az 6 karakter olmalıdır.');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  const { data, error } = await sbClient.rpc('register_user', { p_username: username, p_password: password });
+
+  if(error){
+    submitBtn.disabled = false;
+    showMsg('error','Bağlantı hatası oluştu. Lütfen tekrar deneyin.');
+    return;
+  }
+
+  if(!data.success){
+    usernameWrap.classList.add('has-error');
+    showMsg('error', data.message);
+    submitBtn.disabled = false;
+    return;
+  }
+
+  showMsg('success','Hesabınız oluşturuldu! Giriş sayfasına yönlendiriliyorsunuz…');
+  setTimeout(function(){
+    window.location.href = 'login.html?username=' + encodeURIComponent(username) + '&registered=1';
+  }, 1100);
+});
+</script>
+
+</body>
+</html>
